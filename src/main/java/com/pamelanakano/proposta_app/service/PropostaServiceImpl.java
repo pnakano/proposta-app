@@ -8,6 +8,8 @@ import com.pamelanakano.proposta_app.repository.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PropostaServiceImpl implements PropostaService {
 
@@ -23,5 +25,10 @@ public class PropostaServiceImpl implements PropostaService {
         propostaRepository.save(propostaPersist);
         return PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
    }
+
+    @Override
+    public List<PropostaResponseDto> listarPropostas() {
+        return PropostaMapper.INSTANCE.convertListEntityToListDto(propostaRepository.findAll());
+    }
 
 }

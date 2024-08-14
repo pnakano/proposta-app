@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/proposta")
 public class PropostaControllerImpl implements PropostaController{
@@ -29,4 +31,12 @@ public class PropostaControllerImpl implements PropostaController{
                 .toUri())
                 .body(response);
     }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<List<PropostaResponseDto>> listarPropostas() {
+        return ResponseEntity.ok(propostaService.listarPropostas());
+    }
+
+
 }
