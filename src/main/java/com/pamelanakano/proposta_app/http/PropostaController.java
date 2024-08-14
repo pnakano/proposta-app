@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface PropostaController {
 
     @PostMapping
-    ResponseEntity<PropostaResponseDto> save(@RequestBody PropostaRequestDto propostaRequestDto);
+    ResponseEntity<PropostaResponseDto> criar(@RequestBody PropostaRequestDto propostaRequestDto);
 
 }

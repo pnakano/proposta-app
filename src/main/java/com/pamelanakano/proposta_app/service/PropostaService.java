@@ -5,6 +5,6 @@ import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
 
 public interface PropostaService {
 
-    PropostaResponseDto save(PropostaRequestDto requestDto);
+    PropostaResponseDto criar(PropostaRequestDto requestDto);
 
 }

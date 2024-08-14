@@ -5,9 +5,12 @@ import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
 import com.pamelanakano.proposta_app.model.Proposta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PropostaMapper {
+
+    PropostaMapper INSTANCE = Mappers.getMapper(PropostaMapper.class);
 
     @Mapping(target = "usuario.nome", source = "nome")
     @Mapping(target = "usuario.sobrenome", source = "sobrenome")
