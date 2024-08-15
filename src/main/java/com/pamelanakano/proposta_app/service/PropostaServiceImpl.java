@@ -14,15 +14,16 @@ import java.util.List;
 public class PropostaServiceImpl implements PropostaService {
 
     private final PropostaRepository propostaRepository;
-    private final NotificacaoService notificacaoService;
+
+    private final NotificacaoRabbitService notificacaoRabbitService;
+
     private final String propostaPendenteExchange;
 
-
     public PropostaServiceImpl(PropostaRepository propostaRepository,
-                               NotificacaoService notificacaoService,
+                               NotificacaoRabbitService notificacaoRabbitService,
                                @Value("${rabbitmq.propostapendente.exchange}") String propostaPendenteExchange) {
         this.propostaRepository = propostaRepository;
-        this.notificacaoService = notificacaoService;
+        this.notificacaoRabbitService = notificacaoRabbitService;
         this.propostaPendenteExchange = propostaPendenteExchange;
     }
 
@@ -30,16 +31,23 @@ public class PropostaServiceImpl implements PropostaService {
    public PropostaResponseDto criar(PropostaRequestDto requestDto) {
         Proposta propostaPersist = PropostaMapper.INSTANCE.convertDtoToProposta(requestDto);
         propostaRepository.save(propostaPersist);
+        notificarRabbitMQ(propostaPersist);
 
-        PropostaResponseDto responseDto = PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
-        notificacaoService.notify(responseDto, propostaPendenteExchange);
-
-        return responseDto;
+        return PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
    }
 
     @Override
     public List<PropostaResponseDto> listarPropostas() {
         return PropostaMapper.INSTANCE.convertListEntityToListDto(propostaRepository.findAll());
+    }
+
+    private void notificarRabbitMQ(Proposta proposta){
+        try {
+            notificacaoRabbitService.notify(proposta, propostaPendenteExchange);
+        } catch (RuntimeException e) {
+            proposta.setIntegrada(false);
+            propostaRepository.save(proposta);
+        }
     }
 
 }
