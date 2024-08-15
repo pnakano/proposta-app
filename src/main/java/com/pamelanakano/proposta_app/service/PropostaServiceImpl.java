@@ -5,7 +5,7 @@ import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
 import com.pamelanakano.proposta_app.mapper.PropostaMapper;
 import com.pamelanakano.proposta_app.model.Proposta;
 import com.pamelanakano.proposta_app.repository.PropostaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +14,27 @@ import java.util.List;
 public class PropostaServiceImpl implements PropostaService {
 
     private final PropostaRepository propostaRepository;
+    private final NotificacaoService notificacaoService;
+    private final String propostaPendenteExchange;
 
-    public PropostaServiceImpl(PropostaRepository propostaRepository) {
+
+    public PropostaServiceImpl(PropostaRepository propostaRepository,
+                               NotificacaoService notificacaoService,
+                               @Value("${rabbitmq.propostapendente.exchange}") String propostaPendenteExchange) {
         this.propostaRepository = propostaRepository;
+        this.notificacaoService = notificacaoService;
+        this.propostaPendenteExchange = propostaPendenteExchange;
     }
 
     @Override
    public PropostaResponseDto criar(PropostaRequestDto requestDto) {
         Proposta propostaPersist = PropostaMapper.INSTANCE.convertDtoToProposta(requestDto);
         propostaRepository.save(propostaPersist);
-        return PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
+
+        PropostaResponseDto responseDto = PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
+        notificacaoService.notify(responseDto, propostaPendenteExchange);
+
+        return responseDto;
    }
 
     @Override
