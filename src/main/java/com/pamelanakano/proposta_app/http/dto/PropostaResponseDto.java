@@ -21,6 +21,8 @@ public class PropostaResponseDto {
 
     private String cpf;
 
+    private String email;
+
     private Double renda;
 
     private String valorSolicitadoFmt;

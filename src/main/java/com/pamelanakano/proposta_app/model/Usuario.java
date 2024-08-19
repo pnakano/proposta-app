@@ -30,6 +30,8 @@ public class Usuario {
 
     private String telefone;
 
+    private String email;
+
     private Double renda;
 
     @OneToOne(mappedBy = "usuario")
