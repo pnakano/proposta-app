@@ -43,7 +43,7 @@ public class PropostaServiceImpl implements PropostaService {
 
     private void notificarRabbitMQ(Proposta proposta){
         try {
-            notificacaoRabbitService.notify(proposta, propostaPendenteExchange);
+            notificacaoRabbitService.notificar(proposta, propostaPendenteExchange);
         } catch (RuntimeException e) {
             proposta.setIntegrada(false);
             propostaRepository.save(proposta);

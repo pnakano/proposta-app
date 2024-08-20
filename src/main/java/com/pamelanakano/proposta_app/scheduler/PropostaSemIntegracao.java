@@ -34,7 +34,7 @@ public class PropostaSemIntegracao {
     public void buscarPropostaSemIntegracao(){
         propostaRepository.findAllByIntegradaIsFalse().forEach(proposta -> {
             try {
-                notificacaoRabbitService.notify(proposta, propostaPendenteExchange);
+                notificacaoRabbitService.notificar(proposta, propostaPendenteExchange);
                 atualizarProposta(proposta);
             } catch (RuntimeException e) {
                 logger.error("Erro na comunicação com o RabbitMQ: "+e.getMessage());

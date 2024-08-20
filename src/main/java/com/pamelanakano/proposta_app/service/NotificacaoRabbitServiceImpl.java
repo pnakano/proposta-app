@@ -14,7 +14,7 @@ public class NotificacaoRabbitServiceImpl implements NotificacaoRabbitService {
     }
 
     @Override
-    public void notify(Proposta proposta, String exchange) {
+    public void notificar(Proposta proposta, String exchange) {
         rabbitTemplate.convertAndSend(exchange, "", proposta);
     }
 
