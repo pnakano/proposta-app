@@ -98,6 +98,7 @@ public class RabbitMQConfiguration {
     public Queue createQueuePropostaConcluidaMsProposta() {
         return QueueBuilder.durable(propostaConcluidaProposta)
                 .deadLetterExchange(propostaConcluidaDlqExchange)
+                .maxPriority(10)
                 .build();
     }
 

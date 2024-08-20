@@ -7,6 +7,7 @@ import com.pamelanakano.proposta_app.model.Proposta;
 import com.pamelanakano.proposta_app.repository.PropostaRepository;
 import com.pamelanakano.proposta_app.service.interfaces.NotificacaoRabbitService;
 import com.pamelanakano.proposta_app.service.interfaces.PropostaService;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,14 @@ public class PropostaServiceImpl implements PropostaService {
    public PropostaResponseDto criar(PropostaRequestDto requestDto) {
         Proposta propostaPersist = PropostaMapper.INSTANCE.convertDtoToProposta(requestDto);
         propostaRepository.save(propostaPersist);
-        notificarRabbitMQ(propostaPersist);
+
+        int prioridade = propostaPersist.getUsuario().getRenda() >= 10000 ? 10 : 5;
+        MessagePostProcessor messagePostProcessor = message -> {
+            message.getMessageProperties().setPriority(prioridade);
+            return message;
+        };
+
+        notificarRabbitMQ(propostaPersist, messagePostProcessor);
 
         return PropostaMapper.INSTANCE.convertEntityToDto(propostaPersist);
    }
@@ -43,9 +51,9 @@ public class PropostaServiceImpl implements PropostaService {
         return PropostaMapper.INSTANCE.convertListEntityToListDto(propostaRepository.findAll());
     }
 
-    private void notificarRabbitMQ(Proposta proposta){
+    private void notificarRabbitMQ(Proposta proposta, MessagePostProcessor messagePostProcessor) {
         try {
-            notificacaoRabbitService.notificar(proposta, propostaPendenteExchange);
+            notificacaoRabbitService.notificar(proposta, propostaPendenteExchange, messagePostProcessor);
         } catch (RuntimeException e) {
             proposta.setIntegrada(false);
             propostaRepository.save(proposta);
