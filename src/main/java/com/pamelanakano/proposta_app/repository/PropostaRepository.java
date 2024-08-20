@@ -16,7 +16,7 @@ public interface PropostaRepository extends CrudRepository<Proposta, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE proposta SET aprovada = :aprovada. observacao = :observacao WHERE id= :id", nativeQuery = true)
+    @Query(value = "UPDATE proposta SET aprovada = :aprovada, observacao = :observacao WHERE id= :id", nativeQuery = true)
     void updateProposta(Long id, boolean aprovada, String observacao);
 
 }
