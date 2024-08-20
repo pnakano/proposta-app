@@ -17,11 +17,23 @@ public class RabbitMQConfiguration {
     @Value("${rabbitmq.propostapendente.exchange}")
     private String propostaPendenteExchange;
 
+    @Value("${rabbitmq.propostapendente-dlq.exchange}")
+    private String propostaPendenteDlqExchange;
+
     @Value("${rabbitmq.propostaconcluida.exchange}")
     private String propostaConcluidaExchange;
 
+    @Value("${rabbitmq.propostaconcluida-dlq.exchange}")
+    private String propostaConcluidaDlqExchange;
+
     @Value("${rabbitmq.propostapendente.analiseCredito}")
     private String propostaPendenteAnaliseCredito;
+
+    @Value("${rabbitmq.propostapendente.dlq}")
+    private String propostaPendenteDlq;
+
+    @Value("${rabbitmq.propostaconcluida.dlq}")
+    private String propostaConcluidaDlq;
 
     @Value("${rabbitmq.propostapendente.notificacao}")
     private String propostaPendenteNotificacao;
@@ -56,10 +68,6 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
-    public Queue createQueuePropostaPendenteMsAnaliseCredito() {
-        return QueueBuilder.durable(propostaPendenteAnaliseCredito).build();
-    }
-    @Bean
     public Queue createQueuePropostaPendenteMsNotificacao() {
         return QueueBuilder.durable(propostaPendenteNotificacao).build();
     }
@@ -70,8 +78,27 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    public Queue createQueuePropostaPendenteDlq() {
+        return QueueBuilder.durable(propostaPendenteDlq).build();
+    }
+
+    @Bean
+    public Queue createQueuePropostaConcluidaDlq() {
+        return QueueBuilder.durable(propostaConcluidaDlq).build();
+    }
+
+    @Bean
+    public Queue createQueuePropostaPendenteMsAnaliseCredito() {
+        return QueueBuilder.durable(propostaPendenteAnaliseCredito)
+                .deadLetterExchange(propostaPendenteDlqExchange)
+                .build();
+    }
+
+    @Bean
     public Queue createQueuePropostaConcluidaMsProposta() {
-        return QueueBuilder.durable(propostaConcluidaProposta).build();
+        return QueueBuilder.durable(propostaConcluidaProposta)
+                .deadLetterExchange(propostaConcluidaDlqExchange)
+                .build();
     }
 
     @Bean
@@ -80,8 +107,32 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    public FanoutExchange deadLetterExchangePropostaPendente() {
+        return ExchangeBuilder.fanoutExchange(propostaPendenteDlqExchange).build();
+    }
+
+    @Bean
     public FanoutExchange createFanoutExchangePropostaConcluida() {
         return ExchangeBuilder.fanoutExchange(propostaConcluidaExchange).build();
+    }
+
+    @Bean
+    public FanoutExchange deadLetterExchangePropostaConcluida() {
+        return ExchangeBuilder.fanoutExchange(propostaConcluidaDlqExchange).build();
+    }
+
+    @Bean
+    public Binding createBindingPropostaPendenteDlq(){
+        return BindingBuilder
+                .bind(createQueuePropostaPendenteDlq())
+                .to(deadLetterExchangePropostaPendente());
+    }
+
+    @Bean
+    public Binding createBindingPropostaConcluidaDlq(){
+        return BindingBuilder
+                .bind(createQueuePropostaConcluidaDlq())
+                .to(deadLetterExchangePropostaConcluida());
     }
 
     @Bean
