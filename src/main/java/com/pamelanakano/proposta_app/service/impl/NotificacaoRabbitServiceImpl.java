@@ -1,6 +1,7 @@
-package com.pamelanakano.proposta_app.service;
+package com.pamelanakano.proposta_app.service.impl;
 
 import com.pamelanakano.proposta_app.model.Proposta;
+import com.pamelanakano.proposta_app.service.interfaces.NotificacaoRabbitService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 

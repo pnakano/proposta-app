@@ -2,7 +2,7 @@ package com.pamelanakano.proposta_app.http;
 
 import com.pamelanakano.proposta_app.http.dto.PropostaRequestDto;
 import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
-import com.pamelanakano.proposta_app.service.PropostaService;
+import com.pamelanakano.proposta_app.service.interfaces.PropostaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

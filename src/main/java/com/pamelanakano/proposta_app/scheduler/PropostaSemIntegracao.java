@@ -2,7 +2,7 @@ package com.pamelanakano.proposta_app.scheduler;
 
 import com.pamelanakano.proposta_app.model.Proposta;
 import com.pamelanakano.proposta_app.repository.PropostaRepository;
-import com.pamelanakano.proposta_app.service.NotificacaoRabbitService;
+import com.pamelanakano.proposta_app.service.interfaces.NotificacaoRabbitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

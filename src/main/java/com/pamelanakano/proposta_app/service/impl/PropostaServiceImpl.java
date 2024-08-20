@@ -1,10 +1,12 @@
-package com.pamelanakano.proposta_app.service;
+package com.pamelanakano.proposta_app.service.impl;
 
 import com.pamelanakano.proposta_app.http.dto.PropostaRequestDto;
 import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
 import com.pamelanakano.proposta_app.mapper.PropostaMapper;
 import com.pamelanakano.proposta_app.model.Proposta;
 import com.pamelanakano.proposta_app.repository.PropostaRepository;
+import com.pamelanakano.proposta_app.service.interfaces.NotificacaoRabbitService;
+import com.pamelanakano.proposta_app.service.interfaces.PropostaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

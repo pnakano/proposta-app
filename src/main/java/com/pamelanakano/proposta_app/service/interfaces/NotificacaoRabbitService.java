@@ -1,4 +1,4 @@
-package com.pamelanakano.proposta_app.service;
+package com.pamelanakano.proposta_app.service.interfaces;
 
 import com.pamelanakano.proposta_app.model.Proposta;
 

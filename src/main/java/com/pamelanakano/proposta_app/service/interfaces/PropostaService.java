@@ -1,4 +1,4 @@
-package com.pamelanakano.proposta_app.service;
+package com.pamelanakano.proposta_app.service.interfaces;
 
 import com.pamelanakano.proposta_app.http.dto.PropostaRequestDto;
 import com.pamelanakano.proposta_app.http.dto.PropostaResponseDto;
