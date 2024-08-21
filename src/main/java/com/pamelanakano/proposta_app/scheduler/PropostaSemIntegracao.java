@@ -45,7 +45,7 @@ public class PropostaSemIntegracao {
 
     private void atualizarProposta(Proposta proposta) {
         proposta.setIntegrada(true);
-        propostaRepository.save(proposta);
+        propostaRepository.updatePropostaIntegrada(proposta.getId(), proposta.isIntegrada());
     }
 
 }

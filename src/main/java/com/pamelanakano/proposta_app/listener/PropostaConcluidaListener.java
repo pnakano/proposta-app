@@ -22,7 +22,7 @@ public class PropostaConcluidaListener {
 
     @RabbitListener(queues = "${rabbitmq.propostaconcluida.proposta}")
     public void propostaConcluida(Proposta proposta) {
-        propostaRepository.updateProposta(proposta.getId(), proposta.getAprovada(), proposta.getObservacao());
+        propostaRepository.updateAprovadaObservacao(proposta.getId(), proposta.getAprovada(), proposta.getObservacao());
         PropostaResponseDto responseDto = PropostaMapper.INSTANCE.convertEntityToDto(proposta);
         webSocketService.notificar(responseDto);
     }
