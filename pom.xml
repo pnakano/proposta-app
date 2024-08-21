@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.pamelanakano</groupId>
 	<artifactId>proposta-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>proposta-app</name>
 	<description>Microserviço responsável pelo cadastro das propostas</description>
 	<properties>
