@@ -15,6 +15,9 @@ Este é o microsserviço responsável pelo cadastro de novas propostas via API R
 - [analise-credito](https://github.com/pnakano/proposta-analisecredito)
 - [notificacao](https://github.com/pnakano/proposta-notificacao)
 
+### Aplicação Front-End
+- [proposta-web](https://github.com/pnakano/proposta-web)
+
 ### Conteúdo do curso
 
 - Implementação do ecossistema Spring
@@ -30,6 +33,7 @@ Este é o microsserviço responsável pelo cadastro de novas propostas via API R
 - Implementação do Config Server via repositório Git
 - Serviço de notificação por e-mail utilizando o RabbitMQ e Spring Email
 - Configuração do docker-compose para que a aplicação funcione totalmente em containers
+- Aplicação Front-end em Angular para cadastro das propostas
 
 ## Requisitos
 
